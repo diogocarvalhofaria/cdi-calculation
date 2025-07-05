@@ -1,31 +1,46 @@
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
-  <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+  <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg p-8">
     <h1 class="text-2xl md:text-3xl font-bold text-center mb-6 text-blue-700">
       Simule seu rendimento no CDI
     </h1>
     <form [formGroup]="cdiForm" class="space-y-5">
-      <div>
-        <label for="cdiPercent" class="block text-sm font-medium text-gray-700 mb-1">Porcentagem do CDI (%)</label>
+      <div class="mb-6">
+        <label for="cdiPercent" class="block mb-2 text-sm font-medium text-gray-900">Porcentagem do CDI (%)</label>
         <input id="cdiPercent" type="number" formControlName="cdiPercent" min="0" max="200"
-               class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Ex: 100" />
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 100"/>
       </div>
-      <div>
-        <label for="initialValue" class="block text-sm font-medium text-gray-700 mb-1">Valor inicial investido (R$)</label>
+
+      <div class="mb-6">
+        <label for="cdiAnnual" class="block mb-2 text-sm font-medium text-gray-900">CDI anual atual (%)</label>
+        <input id="cdiAnnual" type="number" formControlName="cdiAnnual" min="0"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 13.65"/>
+      </div>
+
+      <div class="mb-6">
+        <label for="initialValue" class="block mb-2 text-sm font-medium text-gray-900">Valor inicial investido
+          (R$)</label>
         <input id="initialValue" type="number" formControlName="initialValue" min="0"
-               class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Ex: 1000" />
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 1000"/>
       </div>
-      <div>
-        <label for="period" class="block text-sm font-medium text-gray-700 mb-1">Período (meses)</label>
-        <select id="period" formControlName="period"
-                class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500">
-          <option *ngFor="let m of months" [value]="m">{{ m }}</option>
-        </select>
+
+      <div class="mb-6">
+        <label for="period" class="block mb-2 text-sm font-medium text-gray-900">Período (meses)</label>
+        <input id="period" type="number" formControlName="period" min="1"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 60"/>
       </div>
-      <div>
-        <label for="monthlyContribution" class="block text-sm font-medium text-gray-700 mb-1">Aporte mensal (opcional)</label>
+
+      <div class="mb-6">
+        <label for="monthlyContribution" class="block mb-2 text-sm font-medium text-gray-900">Aporte mensal
+          (opcional)</label>
         <input id="monthlyContribution" type="number" formControlName="monthlyContribution" min="0"
-               class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Ex: 200" />
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 200"/>
       </div>
+
       <button type="button" (click)="onCalculate()"
               class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition">
         Calcular rendimento
@@ -33,20 +48,89 @@
     </form>
 
     <div *ngIf="showResult" class="mt-8">
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 shadow text-center">
-        <h2 class="text-lg font-bold text-blue-700 mb-4">Resultado da simulação</h2>
-        <div class="flex flex-col gap-2">
-          <div>
-            <span class="font-medium text-gray-600">Valor final bruto:</span>
-            <span class="text-blue-800 font-bold text-lg">R$ {{ result.finalValue | number:'1.2-2' }}</span>
+
+      <!-- Frase motivacional - adicione esta div antes do grid -->
+      <div id="frase-motivacional"
+           class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 border-l-4 border-blue-500 rounded-lg shadow-sm animate-fadeIn"
+           *ngIf="motivationalPhrase">
+        <p class="text-gray-700 text-center italic font-medium">{{ motivationalPhrase }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        <!-- Primeiro card: Resultado da simulação -->
+        <div class="bg-blue-50/80 border border-blue-300 rounded-2xl p-6 shadow text-center ring-1 ring-blue-400/10">
+          <h2 class="text-lg font-bold text-blue-700 mb-4">Resultado da simulação</h2>
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-center">
+              <span class="font-medium text-gray-600 mr-2">Valor final bruto:</span>
+              <span class="text-blue-800 font-bold text-lg">R$ {{ result.finalValue | number:'1.2-2' }}</span>
+              <button (click)="copyToClipboard(result.finalValue)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+                </svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-center">
+              <span class="font-medium text-gray-600 mr-2">Total investido:</span>
+              <span class="text-gray-800 font-semibold">R$ {{ result.totalInvested | number:'1.2-2' }}</span>
+              <button (click)="copyToClipboard(result.totalInvested)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+                </svg>
+              </button>
+            </div>
+            <div class="flex items-center justify-center">
+              <span class="font-medium text-gray-600 mr-2">Juros acumulados:</span>
+              <span class="text-green-700 font-semibold">R$ {{ result.interest | number:'1.2-2' }}</span>
+              <button (click)="copyToClipboard(result.interest)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+                </svg>
+              </button>
+            </div>
           </div>
-          <div>
-            <span class="font-medium text-gray-600">Total investido:</span>
-            <span class="text-gray-800 font-semibold">R$ {{ result.totalInvested | number:'1.2-2' }}</span>
+        </div>
+
+        <!-- Segundo card: Gráfico de evolução -->
+        <div class="w-full bg-white text-gray-800 rounded-3xl shadow-xl overflow-hidden ring-1 ring-gray-200">
+          <div class="flex justify-between p-4 pb-0">
+            <div>
+              <h5 class="leading-none text-2xl font-bold text-gray-900 pb-1">
+                R$ {{ result.finalValue | number:'1.2-2' }}
+              </h5>
+              <p class="text-base font-normal text-gray-600">Evolução do investimento</p>
+            </div>
+            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-600 text-center">
+              {{ (result.interest / result.totalInvested * 100) | number:'1.2-2' }}%
+              <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 10 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M5 13V1m0 0L1 5m4-4 4 4"/>
+              </svg>
+            </div>
           </div>
-          <div>
-            <span class="font-medium text-gray-600">Juros acumulados:</span>
-            <span class="text-green-700 font-semibold">R$ {{ result.interest | number:'1.2-2' }}</span>
+
+          <div class="px-2.5">
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [colors]="chartOptions.colors"
+              [dataLabels]="chartOptions.dataLabels"
+              [stroke]="chartOptions.stroke"
+              [fill]="chartOptions.fill"
+              [xaxis]="chartOptions.xaxis"
+              [yaxis]="chartOptions.yaxis"
+              [tooltip]="chartOptions.tooltip">
+            </apx-chart>
+          </div>
+
+          <div class="border-t border-gray-200 mt-5 p-4">
+            <div class="flex justify-between items-center pt-2">
+              <span class="text-sm font-medium text-gray-500">Período de {{ cdiForm.get('period')?.value }} meses</span>
+              <span class="uppercase text-sm font-semibold text-blue-600">
+                CDI: {{ cdiForm.get('cdiPercent')?.value }}%
+              </span>
+            </div>
           </div>
         </div>
       </div>
