@@ -50,7 +50,7 @@ export class AppComponent {
         opacity: 0.15
       }
     },
-    colors: ['#22c55e', '#94a3b8'],
+    colors: ['#155dfc', '#94a3b8'],
     fill: {
       type: 'gradient',
       gradient: {
