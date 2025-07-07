@@ -3,6 +3,20 @@
     <h1 class="text-2xl md:text-3xl font-bold text-center mb-6 text-blue-700">
       Simule seu rendimento no CDI
     </h1>
+    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6 rounded-r-md">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-amber-700 leading-relaxed">
+            <strong class="font-semibold text-base">Atenção:</strong> Os valores apresentados são <span class="font-medium">brutos</span>. Impostos como IOF e IR <span class="font-medium">não estão inclusos</span> nesta simulação.
+          </p>
+        </div>
+      </div>
+    </div>
     <form [formGroup]="cdiForm" class="space-y-5">
       <div class="mb-6">
         <label for="cdiPercent" class="block mb-2 text-sm font-medium text-gray-900">Porcentagem do CDI (%)</label>
