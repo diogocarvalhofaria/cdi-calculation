@@ -1,10 +1,21 @@
-import {Component, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {
   NgApexchartsModule,
   ChartComponent,
 } from 'ng-apexcharts';
+
+interface SimulationResult {
+  finalValue: number;
+  totalInvested: number;
+  interest: number;
+  ir: number;
+  iof: number;
+  netInterest: number;
+  finalValueAfterTax: number;
+  rentabilidade: number;
+}
 
 @Component({
   selector: 'app-root',
@@ -14,14 +25,23 @@ import {
 })
 export class AppComponent {
   @ViewChild('chart') chart!: ChartComponent;
+
   cdiForm: FormGroup;
   months = [6, 12, 24, 36, 48, 60];
   showResult = false;
-  result = {
+
+  result: SimulationResult = {
     finalValue: 0,
     totalInvested: 0,
-    interest: 0
+    interest: 0,
+    ir: 0,
+    iof: 0,
+    netInterest: 0,
+    finalValueAfterTax: 0,
+    rentabilidade: 0
   };
+
+  motivationalPhrase = '';
 
   chartOptions: any = {
     series: [
@@ -37,11 +57,9 @@ export class AppComponent {
     chart: {
       height: 400,
       type: 'area',
-      toolbar: {
-        show: false
-      },
-      zoom: {enabled: false},
-      sparkline: {enabled: false},
+      toolbar: { show: false },
+      zoom: { enabled: false },
+      sparkline: { enabled: false },
       dropShadow: {
         enabled: true,
         top: 2,
@@ -62,13 +80,8 @@ export class AppComponent {
         stops: [0, 90, 100]
       }
     },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'smooth',
-      width: 3
-    },
+    dataLabels: { enabled: false },
+    stroke: { curve: 'smooth', width: 3 },
     xaxis: {
       categories: [],
       labels: {
@@ -77,41 +90,26 @@ export class AppComponent {
           fontSize: '12px'
         }
       },
-      axisBorder: {
-        show: false
-      },
-      axisTicks: {
-        show: false
-      },
+      axisBorder: { show: false },
+      axisTicks: { show: false },
       title: {
         text: 'Meses',
-        style: {
-          color: '#334155',
-          fontWeight: 500
-        }
+        style: { color: '#334155', fontWeight: 500 }
       }
     },
     yaxis: {
       labels: {
         formatter: (val: number) => 'R$ ' + val.toFixed(0),
-        style: {
-          colors: '#64748b',
-          fontSize: '12px'
-        }
+        style: { colors: '#64748b', fontSize: '12px' }
       },
       title: {
         text: 'Valor (R$)',
-        style: {
-          color: '#334155',
-          fontWeight: 500
-        }
+        style: { color: '#334155', fontWeight: 500 }
       }
     },
     tooltip: {
       theme: 'light',
-      style: {
-        fontSize: '13px'
-      },
+      style: { fontSize: '13px' },
       y: {
         formatter: (val: number) => 'R$ ' + val.toFixed(2)
       }
@@ -119,11 +117,7 @@ export class AppComponent {
     grid: {
       borderColor: '#e2e8f0',
       strokeDashArray: 4,
-      xaxis: {
-        lines: {
-          show: false
-        }
-      }
+      xaxis: { lines: { show: false } }
     },
     legend: {
       labels: {
@@ -144,15 +138,11 @@ export class AppComponent {
   }
 
   copyToClipboard(value: number) {
-    // Usar o valor numérico puro, sem formatação
     const stringValue = value.toString();
     navigator.clipboard.writeText(stringValue).then(() => {
-      // Opcional: adicionar feedback visual como um toast/snackbar
       alert('Valor copiado: ' + stringValue);
     });
   }
-
-  motivationalPhrase = '';
 
   getMotivationalPhrase(initialValue: number, period: number): string {
     let phrase = '';
@@ -172,6 +162,30 @@ export class AppComponent {
     }
 
     return phrase;
+  }
+
+  calcImposto(rendimentoBruto: number, dias: number): { ir: number, iof: number, liquido: number } {
+    let aliquotaIR = 0;
+    if (dias <= 180) aliquotaIR = 22.5;
+    else if (dias <= 360) aliquotaIR = 20;
+    else if (dias <= 720) aliquotaIR = 17.5;
+    else aliquotaIR = 15;
+
+    let aliquotaIOF = 0;
+    if (dias <= 30) {
+      const iofTabela = [
+        96, 93, 90, 86, 83, 80, 76, 73, 70, 66,
+        63, 60, 56, 53, 50, 46, 43, 40, 36, 33,
+        30, 26, 23, 20, 16, 13, 10, 6, 3, 0
+      ];
+      aliquotaIOF = iofTabela[dias - 1] / 100;
+    }
+
+    const iof = rendimentoBruto * aliquotaIOF;
+    const ir = (rendimentoBruto - iof) * (aliquotaIR / 100);
+    const liquido = rendimentoBruto - iof - ir;
+
+    return { ir, iof, liquido };
   }
 
   onCalculate() {
@@ -196,17 +210,11 @@ export class AppComponent {
     let chartMonths = ['0'];
 
     let labelInterval;
-    if (period > 300) {
-      labelInterval = 60; // A cada 5 anos para períodos enormes
-    } else if (period > 120) {
-      labelInterval = 24; // A cada 2 anos para períodos grandes
-    } else if (period > 60) {
-      labelInterval = 12; // Anual para períodos médios
-    } else if (period > 24) {
-      labelInterval = 6; // Semestral para períodos pequenos
-    } else {
-      labelInterval = 1; // Mensal para períodos curtos
-    }
+    if (period > 300) labelInterval = 60;
+    else if (period > 120) labelInterval = 24;
+    else if (period > 60) labelInterval = 12;
+    else if (period > 24) labelInterval = 6;
+    else labelInterval = 1;
 
     for (let i = 1; i <= period; i++) {
       totalValue = totalValue * (1 + monthlyRate) + monthlyContribution;
@@ -215,34 +223,37 @@ export class AppComponent {
       chartInvested.push(totalInvested);
 
       if (i % labelInterval === 0 || i === period) {
-        if (i % 12 === 0) {
-          chartMonths.push(i / 12 + ' anos');
-        } else {
-          chartMonths.push(i + ' m');
-        }
+        if (i % 12 === 0) chartMonths.push(i / 12 + ' anos');
+        else chartMonths.push(i + ' m');
       } else {
         chartMonths.push('');
       }
     }
 
+
+
+    const rendimentoBruto = totalValue - totalInvested;
+    const diasEstimados = period * 30;
+    const { ir, iof, liquido } = this.calcImposto(rendimentoBruto, diasEstimados);
+
     this.result = {
       finalValue: totalValue,
       totalInvested: totalInvested,
-      interest: totalValue - totalInvested
+      interest: rendimentoBruto,
+      ir,
+      iof,
+      netInterest: liquido,
+      finalValueAfterTax: totalInvested + liquido,
+      rentabilidade: 0 // inicialização
     };
 
-    // Atualiza as opções do gráfico diretamente
+    this.result.rentabilidade = ((this.result.finalValueAfterTax / totalInvested) - 1) * 100;
+
     this.chartOptions = {
       ...this.chartOptions,
       series: [
-        {
-          name: 'Valor Total',
-          data: chartValues
-        },
-        {
-          name: 'Valor Investido',
-          data: chartInvested
-        }
+        { name: 'Valor Total', data: chartValues },
+        { name: 'Valor Investido', data: chartInvested }
       ],
       xaxis: {
         ...this.chartOptions.xaxis,
@@ -259,6 +270,8 @@ export class AppComponent {
         }
       }
     };
+
+
 
     this.showResult = true;
   }
