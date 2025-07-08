@@ -5,6 +5,8 @@ import {
   NgApexchartsModule,
   ChartComponent,
 } from 'ng-apexcharts';
+import {FooterComponent} from './shared/footer.component';
+import { HeaderComponent } from './shared/header.component';
 
 interface SimulationResult {
   finalValue: number;
@@ -21,7 +23,7 @@ interface SimulationResult {
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
-  imports: [CommonModule, ReactiveFormsModule, NgApexchartsModule]
+  imports: [CommonModule, ReactiveFormsModule, NgApexchartsModule, FooterComponent, HeaderComponent]
 })
 export class AppComponent {
   @ViewChild('chart') chart!: ChartComponent;
@@ -133,7 +135,8 @@ export class AppComponent {
       initialValue: [1000, [Validators.required, Validators.min(0)]],
       period: [12, [Validators.required]],
       monthlyContribution: [0, [Validators.min(0)]],
-      cdiAnnual: [13.65, [Validators.required, Validators.min(0)]]
+      cdiAnnual: [13.65, [Validators.required, Validators.min(0)]],
+      showTaxes: [true]
     });
   }
 
@@ -195,6 +198,7 @@ export class AppComponent {
     const initialValue = this.cdiForm.value.initialValue;
     const period = this.cdiForm.value.period;
     const monthlyContribution = this.cdiForm.value.monthlyContribution;
+    const showTaxes = this.cdiForm.value.showTaxes;
 
     const cdiAnnual = this.cdiForm.value.cdiAnnual / 100;
     const cdiMonthly = cdiAnnual / 12;
@@ -230,21 +234,30 @@ export class AppComponent {
       }
     }
 
-
-
     const rendimentoBruto = totalValue - totalInvested;
     const diasEstimados = period * 30;
-    const { ir, iof, liquido } = this.calcImposto(rendimentoBruto, diasEstimados);
+    let ir = 0, iof = 0, liquido = rendimentoBruto;
+
+    if (showTaxes) {
+      const impostos = this.calcImposto(rendimentoBruto, diasEstimados);
+      ir = impostos.ir;
+      iof = impostos.iof;
+      liquido = impostos.liquido;
+    } else {
+      ir = 0;
+      iof = 0;
+      liquido = rendimentoBruto;
+    }
 
     this.result = {
       finalValue: totalValue,
       totalInvested: totalInvested,
       interest: rendimentoBruto,
-      ir,
-      iof,
+      ir: ir,
+      iof: iof,
       netInterest: liquido,
       finalValueAfterTax: totalInvested + liquido,
-      rentabilidade: 0 // inicialização
+      rentabilidade: 0
     };
 
     this.result.rentabilidade = ((this.result.finalValueAfterTax / totalInvested) - 1) * 100;
