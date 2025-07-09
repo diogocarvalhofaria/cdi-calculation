@@ -5,8 +5,8 @@ import {FooterComponent} from '../shared/footer.component';
 @Component({
   selector: 'app-terms-of-use',
   standalone: true,
-  imports: [CommonModule, FooterComponent],
-  templateUrl: './terms-list.component.html',
+  imports: [CommonModule],
+  templateUrl: './terms-of-use-list.component.html',
 })
 export class TermsOfUseComponent {
 }

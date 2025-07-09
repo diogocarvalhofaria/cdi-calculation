@@ -6,7 +6,7 @@ import { FooterComponent } from '../shared/footer.component';
 @Component({
   selector: 'app-privacy-policy',
   standalone: true,
-  imports: [CommonModule, FooterComponent],
+  imports: [CommonModule],
   templateUrl: './privacy-list.component.html',
 })
 export class PrivacyPolicyComponent {}

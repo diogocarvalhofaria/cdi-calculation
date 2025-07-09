@@ -1,0 +1,227 @@
+<section class="w-full max-w-4xl mx-auto px-6 py-10">
+  <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">Entenda o CDI antes de investir</h2>
+
+  <div class="grid gap-6 md:grid-cols-2">
+    <div class="bg-white rounded-xl shadow p-6 border border-gray-100">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">📌 O que é CDI?</h3>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        CDI (Certificado de Depósito Interbancário) é uma taxa que serve como referência para investimentos de renda fixa.
+        Ele acompanha de perto a Selic e é usado para calcular rendimentos de CDBs, LCIs, fundos e outros produtos financeiros.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6 border border-gray-100">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">📈 Por que isso importa?</h3>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        Ao investir, você verá ofertas como “110% do CDI”. Isso significa que seu rendimento será 10% acima da taxa base do mercado.
+        Com essa simulação, você entende o quanto realmente irá lucrar ao longo do tempo.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6 border border-gray-100">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">🔍 O que o simulador calcula?</h3>
+      <ul class="list-disc pl-4 text-gray-600 text-sm leading-relaxed">
+        <li>Valor inicial investido</li>
+        <li>Porcentagem do CDI</li>
+        <li>Duração da aplicação (meses)</li>
+        <li>Aportes mensais (opcional)</li>
+        <li>IR e IOF já aplicados, se desejar</li>
+      </ul>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6 border border-gray-100">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">💡 Exemplo prático</h3>
+      <p class="text-gray-600 text-sm leading-relaxed">
+        Suponha que você invista <strong>R$ 5.000</strong> a <strong>110% do CDI</strong>, com <strong>aportes mensais de R$ 300</strong> durante <strong>24 meses</strong>.
+        O simulador mostrará quanto você terá no final — bruto e líquido — já considerando os impostos.
+      </p>
+    </div>
+  </div>
+
+  <p class="mt-10 text-center text-sm text-gray-500 italic">
+    Pronto para ver seu dinheiro crescer? Preencha os dados abaixo e simule agora mesmo!
+  </p>
+</section>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
+  <div class="w-full max-w-4xl bg-white rounded-xl shadow-lg p-8">
+    <h1 class="text-2xl md:text-3xl font-bold text-center mb-6 text-blue-700">
+      Simule seu rendimento no CDI
+    </h1>
+    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6 rounded-r-md">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 6a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 6zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <p class="text-sm text-amber-700 leading-relaxed">
+          <strong class="font-semibold text-base">Atenção:</strong> Os valores apresentados incluem tanto <span class="font-medium">valores brutos</span> quanto <span class="font-medium">valores líquidos</span>, já com desconto de IR e IOF estimados conforme o tempo de aplicação.
+        </p>
+      </div>
+    </div>
+    <form [formGroup]="cdiForm" class="space-y-5">
+      <div class="mb-6">
+        <label for="cdiPercent" class="block mb-2 text-sm font-medium text-gray-900">Porcentagem do CDI (%)</label>
+        <input id="cdiPercent" type="number" formControlName="cdiPercent" min="0" max="200"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 100"/>
+      </div>
+
+      <div class="mb-6">
+        <label for="cdiAnnual" class="block mb-2 text-sm font-medium text-gray-900">CDI anual atual (%)</label>
+        <input id="cdiAnnual" type="number" formControlName="cdiAnnual" min="0"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 13.65"/>
+      </div>
+
+      <div class="mb-6">
+        <label for="initialValue" class="block mb-2 text-sm font-medium text-gray-900">Valor inicial investido
+          (R$)</label>
+        <input id="initialValue" type="number" formControlName="initialValue" min="0"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 1000"/>
+      </div>
+
+      <div class="mb-6">
+        <label for="period" class="block mb-2 text-sm font-medium text-gray-900">Período (meses)</label>
+        <input id="period" type="number" formControlName="period" min="1"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 60"/>
+      </div>
+
+      <div class="mb-6">
+        <label for="monthlyContribution" class="block mb-2 text-sm font-medium text-gray-900">Aporte mensal
+          (opcional)</label>
+        <input id="monthlyContribution" type="number" formControlName="monthlyContribution" min="0"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+               placeholder="Ex: 200"/>
+      </div>
+
+      <div class="mb-6 flex items-center">
+        <input id="showTaxes" type="checkbox" formControlName="showTaxes"
+               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+        <label for="showTaxes" class="ml-2 text-sm font-medium text-gray-900">
+          Mostrar resultados com desconto de impostos (IR e IOF)
+        </label>
+      </div>
+
+      <button type="button" (click)="onCalculate()"
+              class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition">
+        Calcular rendimento
+      </button>
+    </form>
+
+    <div *ngIf="showResult" class="mt-8">
+      <!-- Frase motivacional - adicione esta div antes do grid -->
+      <div id="frase-motivacional"
+           class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 border-l-4 border-blue-500 rounded-lg shadow-sm animate-fadeIn"
+           *ngIf="motivationalPhrase">
+        <p class="text-gray-700 text-center italic font-medium">{{ motivationalPhrase }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        <!-- Primeiro card: Resultado da simulação -->
+        <div *ngIf="cdiForm.get('showTaxes')?.value">
+          <div class="flex items-center justify-center">
+            <span class="font-medium text-gray-600 mr-2">Desconto de IOF:</span>
+            <span class="text-red-600 font-semibold">R$ {{ result.iof | number:'1.2-2' }}</span>
+            <button (click)="copyToClipboard(result.iof)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-center">
+            <span class="font-medium text-gray-600 mr-2">Desconto de IR:</span>
+            <span class="text-red-600 font-semibold">R$ {{ result.ir | number:'1.2-2' }}</span>
+            <button (click)="copyToClipboard(result.ir)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center">
+            <span class="font-medium text-gray-600 mr-2">
+              {{ cdiForm.get('showTaxes')?.value ? 'Rendimento líquido:' : 'Rendimento bruto:' }}
+            </span>
+          <span class="text-green-800 font-bold">R$ {{ result.netInterest | number:'1.2-2' }}</span>
+          <button (click)="copyToClipboard(result.netInterest)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-center">
+            <span class="font-medium text-gray-600 mr-2">
+              {{ cdiForm.get('showTaxes')?.value ? 'Valor final líquido:' : 'Valor final bruto:' }}
+            </span>
+          <span class="text-blue-900 font-bold text-lg">R$ {{ result.finalValueAfterTax | number:'1.2-2' }}</span>
+          <button (click)="copyToClipboard(result.finalValueAfterTax)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-center">
+          <span class="font-medium text-gray-600 mr-2">Rentabilidade total:</span>
+          <span class="text-green-600 font-bold">{{ result.rentabilidade | number:'1.2-2' }}% ↑</span>
+          <button (click)="copyToClipboard(result.rentabilidade)" class="ml-2 text-gray-500 hover:text-blue-600" title="Copiar valor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-12a2 2 0 00-2-2h-2M8 5a2 2 0 002-2h4a2 2 0 012 2M8 5a2 2 0 012-2h4a2 2 0 012 2" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Segundo card: Gráfico de evolução -->
+        <div class="w-full bg-white text-gray-800 rounded-3xl shadow-xl overflow-hidden ring-1 ring-gray-200">
+          <div class="flex justify-between p-4 pb-0">
+            <div>
+              <h5 class="leading-none text-2xl font-bold text-gray-900 pb-1">
+                R$ {{ result.finalValue | number:'1.2-2' }}
+              </h5>
+              <p class="text-base font-normal text-gray-600">Evolução do investimento</p>
+            </div>
+            <div class="flex items-center px-2.5 py-0.5 text-base font-semibold text-green-600 text-center">
+              {{ (result.interest / result.totalInvested * 100) | number:'1.2-2' }}%
+              <svg class="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 10 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M5 13V1m0 0L1 5m4-4 4 4"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="px-2.5">
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [colors]="chartOptions.colors"
+              [dataLabels]="chartOptions.dataLabels"
+              [stroke]="chartOptions.stroke"
+              [fill]="chartOptions.fill"
+              [xaxis]="chartOptions.xaxis"
+              [yaxis]="chartOptions.yaxis"
+              [tooltip]="chartOptions.tooltip">
+            </apx-chart>
+          </div>
+
+          <div class="border-t border-gray-200 mt-5 p-4">
+            <div class="flex justify-between items-center pt-2">
+              <span class="text-sm font-medium text-gray-500">Período de {{ cdiForm.get('period')?.value }} meses</span>
+              <span class="uppercase text-sm font-semibold text-blue-600">
+                CDI: {{ cdiForm.get('cdiPercent')?.value }}%
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

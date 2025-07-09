@@ -5,7 +5,7 @@ import { FooterComponent } from '../shared/footer.component';
 @Component({
   selector: 'app-investment-types',
   standalone: true,
-  imports: [CommonModule, FooterComponent],
+  imports: [CommonModule],
   templateUrl: './investment-list.component.html',
 })
 export class InvestmentTypesComponent {}

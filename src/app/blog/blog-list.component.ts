@@ -14,7 +14,7 @@ interface BlogPost {
 @Component({
   selector: 'app-blog-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FooterComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './blog-list.component.html'
 })
 export class BlogListComponent {

@@ -5,7 +5,7 @@ import { FooterComponent } from '../shared/footer.component';
 @Component({
   selector: 'app-cdi-article',
   standalone: true,
-  imports: [CommonModule, FooterComponent],
+  imports: [CommonModule],
   templateUrl: './cdi-article.component.html'
 })
 export class CdiArticleComponent {}
