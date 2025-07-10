@@ -25,7 +25,6 @@ export class HomeComponent {
   @ViewChild('chart') chart!: ChartComponent;
 
   cdiForm: FormGroup;
-  months = [6, 12, 24, 36, 48, 60];
   showResult = false;
 
   result: SimulationResult = {
@@ -97,7 +96,6 @@ export class HomeComponent {
     },
     yaxis: {
       labels: {
-        formatter: (val: number) => 'R$ ' + val.toFixed(0),
         style: { colors: '#64748b', fontSize: '12px' }
       },
       title: {
@@ -109,7 +107,6 @@ export class HomeComponent {
       theme: 'light',
       style: { fontSize: '13px' },
       y: {
-        formatter: (val: number) => 'R$ ' + val.toFixed(2)
       }
     },
     grid: {
@@ -279,8 +276,6 @@ export class HomeComponent {
         }
       }
     };
-
-
 
     this.showResult = true;
   }
