@@ -7,8 +7,6 @@ interface BlogPost {
   id: string;
   title: string;
   description: string;
-  imageUrl: string;
-  date: string;
 }
 
 @Component({
@@ -23,22 +21,16 @@ export class BlogListComponent {
       id: 'cdi-e-investimentos',
       title: 'O que é o CDI e como ele impacta meus investimentos?',
       description: 'Entenda a importância do CDI e como ele afeta o rendimento dos seus investimentos de renda fixa.',
-      imageUrl: 'assets/images/cdi-article.jpg',
-      date: '15 de agosto de 2023'
     },
     {
       id: 'cdb-lci-tesouro-selic',
       title: 'Diferença entre CDB, LCI e Tesouro Selic',
       description: 'Conheça as características, vantagens e desvantagens de cada tipo de investimento.',
-      imageUrl: 'assets/images/investment-types.jpg',
-      date: '22 de setembro de 2023'
     },
     {
       id: 'imposto-renda-renda-fixa',
       title: 'Como funciona o Imposto de Renda em investimentos de renda fixa',
       description: 'Um guia completo sobre a tributação dos seus investimentos e como planejar-se melhor.',
-      imageUrl: 'assets/images/tax-guide.jpg',
-      date: '10 de outubro de 2023'
     }
   ];
 }
