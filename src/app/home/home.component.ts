@@ -2,8 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule, ChartComponent } from 'ng-apexcharts';
-import { FooterComponent } from '../shared/footer.component';
-import { HeaderComponent } from '../shared/header.component';
 import { RouterModule } from '@angular/router';
 
 interface SimulationResult {
