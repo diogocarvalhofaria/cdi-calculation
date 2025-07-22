@@ -128,7 +128,7 @@ export class HomeComponent {
       initialValue: [1000, [Validators.required, Validators.min(0)]],
       period: [12, [Validators.required]],
       monthlyContribution: [0, [Validators.min(0)]],
-      cdiAnnual: [13.65, [Validators.required, Validators.min(0)]],
+      cdiAnnual: [15, [Validators.required, Validators.min(0)]],
       showTaxes: [true]
     });
   }

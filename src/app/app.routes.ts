@@ -6,6 +6,8 @@ import { InvestmentTypesComponent } from './blog/investment-types.component';
 import { TaxArticleComponent } from './blog/tax-article.component';
 import { PrivacyPolicyComponent } from './blog/privacy-policy.component';
 import { TermsOfUseComponent } from './blog/terms-of-use.component';
+import {AuthComponent} from './auth/auth.component';
+import {RegisterComponent} from './auth/register.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,5 +17,7 @@ export const routes: Routes = [
   { path: 'blog/imposto-renda-renda-fixa', component: TaxArticleComponent },
   { path: 'politica-privacidade', component: PrivacyPolicyComponent },
   { path: 'termos-uso', component: TermsOfUseComponent },
-  { path: '**', redirectTo: '' }
+  {path: 'auth', component: AuthComponent},
+  {path: 'register', component: RegisterComponent},
+  { path: '**', redirectTo: '' },
 ];
