@@ -3,9 +3,10 @@
     <!-- Seção Inferior - Copyright e links para políticas -->
     <div class="flex flex-col md:flex-row items-center justify-between text-sm">
       <p>© {{ currentYear }} CDIFácil - Todos os direitos reservados.</p>
-      <div class="mt-4 md:mt-0 flex gap-4">
-        <a routerLink="/politica-privacidade">Política de Privacidade</a>
-        <a routerLink="/termos-uso">Termos de Uso</a>
+      <div class="mt-4 md:mt-0 flex gap-6"> <!-- Aumentei o gap para um pouco mais de espaço -->
+        <!-- Adicionado hover:text-blue-200 e transition para suavidade -->
+        <a routerLink="/politica-privacidade" class="hover:text-blue-200 transition-colors duration-300">Política de Privacidade</a>
+        <a routerLink="/termos-uso" class="hover:text-blue-200 transition-colors duration-300">Termos de Uso</a>
       </div>
     </div>
   </div>
