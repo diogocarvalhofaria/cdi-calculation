@@ -1,0 +1,47 @@
+# This file was generated. Do not edit manually.
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Indicates exactly one field must be supplied and this field must not be `null`."
+directive @oneOf on INPUT_OBJECT
+
+type DefaultMessage {
+  message: String!
+  status: Int!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): DefaultMessage!
+  removeUser(id: String!): DefaultMessage!
+  updateUser(updateUserInput: UpdateUserInput!): DefaultMessage!
+}
+
+type Query {
+  findOne(userId: String!): User!
+}
+
+type User {
+  email: String!
+  id: ID!
+  name: String!
+}
+
+input CreateUserInput {
+  "The email of the user"
+  email: String!
+  "The name of the user"
+  name: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  "The email of the user"
+  email: String
+  id: String!
+  "The name of the user"
+  name: String
+  password: String
+}

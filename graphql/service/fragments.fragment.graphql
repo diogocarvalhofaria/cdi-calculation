@@ -1,0 +1,4 @@
+fragment DefaultMessage on DefaultMessage {
+  status
+  message
+}

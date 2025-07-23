@@ -1,0 +1,11 @@
+projects:
+  service:
+    schema: ./graphql/service/schema.graphql
+    documents: ./graphql/service/*.graphql
+    extensions:
+      endpoints:
+        Service Endpoint:
+          url: http://localhost:3000/graphql
+          headers:
+            user-agent: JS GraphQL
+          introspect: true
