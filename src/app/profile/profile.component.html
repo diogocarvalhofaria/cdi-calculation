@@ -1,0 +1,20 @@
+<div class="p-8">
+  <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8">
+    <h1 class="text-2xl font-bold mb-4">Página de Perfil (Protegida)</h1>
+
+    <div *ngIf="user; else loading">
+      <p class="text-gray-700">Login realizado com sucesso!</p>
+      <p><strong>Email do Usuário:</strong> {{ user.email }}</p>
+      <p><strong>ID do Usuário (sub):</strong> {{ user.sub }}</p>
+    </div>
+
+    <ng-template #loading>
+      <p *ngIf="!errorMessage">Carregando dados...</p>
+      <p *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</p>
+    </ng-template>
+
+    <button (click)="logout()" class="mt-6 w-full text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+      Logout
+    </button>
+  </div>
+</div>
