@@ -8,6 +8,8 @@ import { PrivacyPolicyComponent } from './blog/privacy-policy.component';
 import { TermsOfUseComponent } from './blog/terms-of-use.component';
 import {AuthComponent} from './auth/auth.component';
 import {RegisterComponent} from './auth/register.component';
+import {authGuard} from './guards/auth.guard';
+import {ProfileComponent} from './profile/profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,4 +22,17 @@ export const routes: Routes = [
   {path: 'auth', component: AuthComponent},
   {path: 'register', component: RegisterComponent},
   { path: '**', redirectTo: '' },
+  { path: 'login', component: AuthComponent },
+  { path: 'register', component: RegisterComponent },
+
+  // A rota 'profile' é protegida. O guard será verificado antes de acessá-la.
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [authGuard] // O guard protege esta rota
+  },
+
+  // Rotas padrão
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login' }
 ];

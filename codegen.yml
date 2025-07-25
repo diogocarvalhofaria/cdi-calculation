@@ -2,7 +2,6 @@ overwrite: true
 
 generates:
   src/generated/graphql.ts:
-    #schema: "https://service-hml.buildercrm.com.br/graphql"
     schema: "http://localhost:3000/graphql"
     documents: "graphql/service/**/*.graphql"
     plugins:
