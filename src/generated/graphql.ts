@@ -1,4 +1,6 @@
 import { gql } from 'apollo-angular';
+import { Injectable } from '@angular/core';
+import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -75,9 +77,34 @@ export interface User {
 
 export type DefaultMessageFragment = { status: number, message: string };
 
+export type CreateUserMutationVariables = Exact<{
+  createUserInput: CreateUserInput;
+}>;
+
+
+export type CreateUserMutation = { createUser: { status: number, message: string } };
+
 export const DefaultMessageFragmentDoc = gql`
     fragment DefaultMessage on DefaultMessage {
   status
   message
 }
     `;
+export const CreateUserDocument = gql`
+    mutation CreateUser($createUserInput: CreateUserInput!) {
+  createUser(createUserInput: $createUserInput) {
+    ...DefaultMessage
+  }
+}
+    ${DefaultMessageFragmentDoc}`;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
+    document = CreateUserDocument;
+    override client = 'default';
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }

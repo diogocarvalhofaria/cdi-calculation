@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable, tap} from 'rxjs';
+import {Observable, of, switchMap, tap} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import {CreateUserGQL, CreateUserInput, User} from '../../../generated/graphql';
 
 
 const API_URL = 'http://localhost:3000';
@@ -12,7 +13,11 @@ const API_URL = 'http://localhost:3000';
 export class AuthService {
   private token: string | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+  private createUserGQL: CreateUserGQL,
+  ) {
+  }
+
 
   /**
    * Envia as credenciais para o endpoint de login da API.
@@ -38,12 +43,16 @@ export class AuthService {
    * * @param userData - Dados para a criação do usuário (nome, email, senha).
    */
 
-  register(userData: any): Observable<any> {
-    return this.http.post(`${API_URL}/user`, userData).pipe(
-      tap(response => {
-        // Aqui você pode lidar com a resposta após o registro, se necessário
-        console.log('Usuário registrado com sucesso:', response);
-      })
+  register(data: CreateUserInput): Observable<{ status: number; message: string; }> {
+    return this.createUserGQL.mutate({
+      createUserInput: data,
+    }).pipe(
+      switchMap(({ data }) => {
+        if (!data?.createUser) {
+          throw new Error('Usuário não criado');
+        }
+        return of(data.createUser);
+      }),
     );
   }
 
