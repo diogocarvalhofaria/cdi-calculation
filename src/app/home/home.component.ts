@@ -25,7 +25,7 @@ export class HomeComponent {
   @ViewChild('chart') chart!: ChartComponent;
 
   cdiForm: FormGroup;
-  showResult = false;
+  showResult = true;
 
   result: SimulationResult = {
     finalValue: 0,
