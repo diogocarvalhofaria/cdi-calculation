@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule, ChartComponent } from 'ng-apexcharts';
 import { RouterModule } from '@angular/router';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 interface SimulationResult {
   finalValue: number;
@@ -19,7 +22,7 @@ interface SimulationResult {
   selector: 'app-home',
   standalone: true,
   templateUrl: './home-list.component.html',
-  imports: [CommonModule, ReactiveFormsModule, NgApexchartsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, NgApexchartsModule, RouterModule, MatIconModule]
 })
 export class HomeComponent {
   @ViewChild('chart') chart!: ChartComponent;
@@ -89,7 +92,6 @@ export class HomeComponent {
         },
         rotate: -45,
         hideOverlappingLabels: true,
-        // ATUALIZADO: Formatter simplificado para evitar erros de renderização
         formatter: function(value: string) {
           if (value && value.endsWith('m')) {
             const month = parseInt(value.replace('m', ''));
@@ -152,7 +154,10 @@ export class HomeComponent {
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+  private matIconRegistry: MatIconRegistry,
+  private domSanitizer: DomSanitizer
+) {
     this.cdiForm = this.fb.group({
       cdiPercent: [100, [Validators.required, Validators.min(0)]],
       initialValue: [1000, [Validators.required, Validators.min(0)]],
