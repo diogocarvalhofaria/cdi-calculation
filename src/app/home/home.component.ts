@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule, ChartComponent } from 'ng-apexcharts';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-
 
 interface SimulationResult {
   finalValue: number;
@@ -21,7 +19,7 @@ interface SimulationResult {
   selector: 'app-home',
   standalone: true,
   templateUrl: './home-list.component.html',
-  imports: [CommonModule, ReactiveFormsModule, NgApexchartsModule, RouterModule, MatIconModule]
+  imports: [CommonModule, ReactiveFormsModule, NgApexchartsModule, RouterModule]
 })
 export class HomeComponent {
   @ViewChild('chart') chart!: ChartComponent;

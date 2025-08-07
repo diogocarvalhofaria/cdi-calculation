@@ -22,13 +22,16 @@
     <div class="bg-white p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
       <h3 class="font-poppins text-lg font-semibold text-[#0f766e] mb-2">📌 O que é CDI?</h3>
       <p class="text-gray-600 leading-relaxed">
-        CDI (Certificado de Depósito Interbancário) é uma taxa que serve como referência para investimentos de renda fixa. Ele acompanha de perto a Selic e é usado para calcular rendimentos de CDBs, LCIs, fundos e outros produtos financeiros.
+        CDI (Certificado de Depósito Interbancário) é uma taxa que serve como referência para investimentos de renda
+        fixa. Ele acompanha de perto a Selic e é usado para calcular rendimentos de CDBs, LCIs, fundos e outros produtos
+        financeiros.
       </p>
     </div>
     <div class="bg-white p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
       <h3 class="font-poppins text-lg font-semibold text-[#0f766e] mb-2">📈 Por que isso importa?</h3>
       <p class="text-gray-600 leading-relaxed">
-        Ao investir, você verá ofertas como “110% do CDI”. Isso significa que seu rendimento será 10% acima da taxa base do mercado. Com esta simulação, você entende o quanto realmente irá lucrar.
+        Ao investir, você verá ofertas como “110% do CDI”. Isso significa que seu rendimento será 10% acima da taxa base
+        do mercado. Com esta simulação, você entende o quanto realmente irá lucrar.
       </p>
     </div>
   </div>
@@ -49,18 +52,30 @@
           <div class="relative">
             <label for="initialValue" class="block mb-2 text-sm font-medium text-gray-700">Valor inicial (R$)</label>
             <div class="absolute inset-y-0 left-0 top-7 pl-3 flex items-center pointer-events-none">
-              <mat-icon svgIcon="heroicons_outline:banknotes"></mat-icon>
+              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                <!--!Font Awesome Free v6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                <path fill="currentColor"
+                      d="M96 96l0 224c0 35.3 28.7 64 64 64l416 0c35.3 0 64-28.7 64-64l0-224c0-35.3-28.7-64-64-64L160 32c-35.3 0-64 28.7-64 64zm64 160c35.3 0 64 28.7 64 64l-64 0 0-64zM224 96c0 35.3-28.7 64-64 64l0-64 64 0zM576 256l0 64-64 0c0-35.3 28.7-64 64-64zM512 96l64 0 0 64c-35.3 0-64-28.7-64-64zM288 208a80 80 0 1 1 160 0 80 80 0 1 1 -160 0zM48 120c0-13.3-10.7-24-24-24S0 106.7 0 120L0 360c0 66.3 53.7 120 120 120l400 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-400 0c-39.8 0-72-32.2-72-72l0-240z"/>
+              </svg>
             </div>
-            <input id="initialValue" type="number" formControlName="initialValue" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition" placeholder="1000.00" aria-label="Valor inicial em Reais">
+            <input id="initialValue" type="number" formControlName="initialValue"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition"
+                   placeholder="1000.00" aria-label="Valor inicial em Reais">
           </div>
 
           <!-- Input: Aporte Mensal -->
           <div class="relative">
-            <label for="monthlyContribution" class="block mb-2 text-sm font-medium text-gray-700">Aporte mensal (R$)</label>
+            <label for="monthlyContribution" class="block mb-2 text-sm font-medium text-gray-700">Aporte mensal
+              (R$)</label>
             <div class="absolute inset-y-0 left-0 top-7 pl-3 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                      d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+              </svg>
             </div>
-            <input id="monthlyContribution" type="number" formControlName="monthlyContribution" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition" placeholder="200.00" aria-label="Aporte mensal em Reais">
+            <input id="monthlyContribution" type="number" formControlName="monthlyContribution"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition"
+                   placeholder="200.00" aria-label="Aporte mensal em Reais">
           </div>
 
           <!-- ATUALIZADO: Input: Período com seletor de Meses/Anos -->
@@ -69,11 +84,18 @@
             <div class="flex items-center space-x-2">
               <div class="relative flex-grow">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18" /></svg>
+                  <svg class="w-5 h-5 text-gray-400" style="color: #9CA3AF;" xmlns="http://www.w3.org/2000/svg"
+                       viewBox="0 0 448 512">
+                    <path fill="currentColor"
+                          d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L64 64C28.7 64 0 92.7 0 128l0 16 0 48L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-256 0-48 0-16c0-35.3-28.7-64-64-64l-40 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L152 64l0-40zM48 192l352 0 0 256c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256z"/>
+                  </svg>
                 </div>
-                <input id="period" type="number" formControlName="period" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition" placeholder="12" aria-label="Duração do período">
+                <input id="period" type="number" formControlName="period"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition"
+                       placeholder="12" aria-label="Duração do período">
               </div>
-              <select formControlName="periodType" aria-label="Tipo de período" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] p-3 transition">
+              <select formControlName="periodType" aria-label="Tipo de período"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] p-3 transition">
                 <option value="meses">Meses</option>
                 <option value="anos">Anos</option>
               </select>
@@ -82,26 +104,41 @@
 
           <!-- Input: % CDI -->
           <div class="relative">
-            <label for="cdiPercent" class="block mb-2 text-sm font-medium text-gray-700">Rentabilidade (% do CDI)</label>
+            <label for="cdiPercent" class="block mb-2 text-sm font-medium text-gray-700">Rentabilidade (% do
+              CDI)</label>
             <div class="absolute inset-y-0 left-0 top-7 pl-3 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-1.007 1.11-1.226.554-.22 1.196-.22 1.75 0 .554.22 1.02.684 1.11 1.226l.094.542c.065.395.333.723.723.838.395.115.81.066 1.159-.143l.445-.262c.5-.294 1.105-.218 1.555.178l.445.445c.396.396.472 1.055.178 1.555l-.262.445c-.209.349-.258.764-.143 1.159.115.395.443.658.838.723l.542.094c.542.09.927.56 1.226 1.11.22.554.22 1.196 0 1.75-.22.554-.684 1.02-1.226 1.11l-.542.094c-.395.065-.723.333-.838.723-.115.395-.066.81.143 1.159l.262.445c.294.5.218 1.105-.178 1.555l-.445.445c-.396-.396-1.055.472-1.555.178l-.445-.262c-.349-.209-.764-.258-1.159-.143-.395.115-.658.443-.723-.838l-.094-.542c-.09.542-.56.927-1.11 1.226-.554-.22-1.196-.22-1.75 0-.554-.22-1.02-.684-1.226-1.11l-.094-.542c-.065-.395-.333-.723-.723-.838-.395-.115-.81-.066-1.159-.143l-.445-.262c-.5-.294-1.105-.218-1.555.178l-.445-.445c-.396-.396-.472-1.055-.178-1.555l.262-.445c.209.349.258.764.143 1.159-.115.395-.443.658-.838.723l-.542.094c-.542.09-.927.56-1.226 1.11-.22.554-.22 1.196 0 1.75.22.554.684 1.02 1.226 1.11l.542.094c.395.065.723.333.838.723.115.395.066.81-.143 1.159l-.262.445c-.294.5-.218 1.105.178 1.555l.445.445c.396.396 1.055.472 1.555.178l.445-.262c.349-.209.764-.258 1.159-.143.395-.115.658-.443.723-.838l.094-.542z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              <svg class="w-5 h-5 text-gray-400" style="color: #9CA3AF;" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 512 512">
+                <!--!Font Awesome Free v6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                <path fill="currentColor"
+                      d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
+              </svg>
             </div>
-            <input id="cdiPercent" type="number" formControlName="cdiPercent" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition" placeholder="110" aria-label="Rentabilidade em porcentagem do CDI">
+            <input id="cdiPercent" type="number" formControlName="cdiPercent"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition"
+                   placeholder="110" aria-label="Rentabilidade em porcentagem do CDI">
           </div>
 
           <!-- Input CDI Anual -->
           <div class="relative">
             <label for="cdiAnnual" class="block mb-2 text-sm font-medium text-gray-700">CDI anual atual (%)</label>
             <div class="absolute inset-y-0 left-0 top-7 pl-3 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
+              <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                  d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"/>
+              </svg>
             </div>
-            <input id="cdiAnnual" type="number" formControlName="cdiAnnual" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition" placeholder="11.25" aria-label="Taxa CDI anual atual">
+            <input id="cdiAnnual" type="number" formControlName="cdiAnnual"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-[#2563eb] focus:border-[#2563eb] block w-full pl-10 p-3 transition"
+                   placeholder="11.25" aria-label="Taxa CDI anual atual">
           </div>
 
           <!-- Checkbox de Impostos -->
           <div class="flex items-center pt-2">
-            <input id="showTaxes" type="checkbox" formControlName="showTaxes" class="w-4 h-4 text-[#2563eb] bg-gray-100 border-gray-300 rounded focus:ring-[#2563eb] focus:ring-2">
-            <label for="showTaxes" class="ml-2 text-sm font-medium text-gray-700">Calcular com impostos (IR e IOF)</label>
+            <input id="showTaxes" type="checkbox" formControlName="showTaxes"
+                   class="w-4 h-4 text-[#2563eb] bg-gray-100 border-gray-300 rounded focus:ring-[#2563eb] focus:ring-2">
+            <label for="showTaxes" class="ml-2 text-sm font-medium text-gray-700">Calcular com impostos (IR e
+              IOF)</label>
           </div>
 
 
@@ -116,14 +153,16 @@
       <!-- Coluna de Resultados e Gráfico -->
       <div class="lg:col-span-3 space-y-8">
         <!-- Card de Resultado -->
-        <div *ngIf="showResult" class="bg-[#f1f5f9] p-8 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] animate-fade-in">
+        <div *ngIf="showResult"
+             class="bg-[#f1f5f9] p-8 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] animate-fade-in">
           <h2 class="font-poppins text-xl font-bold text-gray-800 mb-1">Resultado da Simulação</h2>
           <p class="text-gray-500 mb-6" *ngIf="cdiForm.get('showTaxes')?.value">Valores líquidos, após impostos.</p>
           <p class="text-gray-500 mb-6" *ngIf="!cdiForm.get('showTaxes')?.value">Valores brutos, sem impostos.</p>
 
           <div class="grid grid-cols-2 gap-6">
             <div class="bg-white/60 p-4 rounded-lg">
-              <p class="text-sm text-gray-600">{{ cdiForm.get('showTaxes')?.value ? 'Rendimento Líquido' : 'Rendimento Bruto' }}</p>
+              <p
+                class="text-sm text-gray-600">{{ cdiForm.get('showTaxes')?.value ? 'Rendimento Líquido' : 'Rendimento Bruto' }}</p>
               <p class="text-lg font-semibold text-[#0f766e]">R$ {{ result.netInterest | number:'1.2-2' }}</p>
             </div>
             <div class="bg-white/60 p-4 rounded-lg">
@@ -133,12 +172,14 @@
           </div>
 
           <div class="mt-6 bg-white p-6 rounded-lg text-center">
-            <p class="text-md text-gray-600 uppercase tracking-wider">{{ cdiForm.get('showTaxes')?.value ? 'Valor Final Líquido' : 'Valor Final Bruto' }}</p>
+            <p
+              class="text-md text-gray-600 uppercase tracking-wider">{{ cdiForm.get('showTaxes')?.value ? 'Valor Final Líquido' : 'Valor Final Bruto' }}</p>
             <p class="text-4xl font-bold text-[#16a34a] mt-2">R$ {{ result.finalValueAfterTax | number:'1.2-2' }}</p>
           </div>
 
           <!-- ADICIONADO: Seção de Detalhes dos Impostos -->
-          <div *ngIf="cdiForm.get('showTaxes')?.value && (result.ir > 0 || result.iof > 0)" class="mt-4 pt-4 border-t border-gray-300/80 text-sm text-gray-600">
+          <div *ngIf="cdiForm.get('showTaxes')?.value && (result.ir > 0 || result.iof > 0)"
+               class="mt-4 pt-4 border-t border-gray-300/80 text-sm text-gray-600">
             <div class="flex justify-between items-center">
               <span>Desconto de IOF:</span>
               <span class="font-medium text-red-600">- R$ {{ result.iof | number:'1.2-2' }}</span>
@@ -152,7 +193,8 @@
         </div>
 
         <!-- Card do Gráfico -->
-        <div *ngIf="showResult" class="bg-white p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] animate-fade-in" style="animation-delay: 150ms;">
+        <div *ngIf="showResult" class="bg-white p-6 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] animate-fade-in"
+             style="animation-delay: 150ms;">
           <h3 class="font-poppins text-xl font-bold text-gray-800 mb-4">Veja como seu investimento cresce</h3>
           <apx-chart
             [series]="chartOptions.series"
