@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { NgApexchartsModule, ChartComponent } from 'ng-apexcharts';
-import { RouterModule } from '@angular/router';
+import {Component, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {NgApexchartsModule, ChartComponent} from 'ng-apexcharts';
+import {RouterModule} from '@angular/router';
 
 interface SimulationResult {
   finalValue: number;
@@ -54,9 +54,9 @@ export class HomeComponent {
     chart: {
       height: 400,
       type: 'area',
-      toolbar: { show: false },
-      zoom: { enabled: false },
-      sparkline: { enabled: false },
+      toolbar: {show: false},
+      zoom: {enabled: false},
+      sparkline: {enabled: false},
       dropShadow: {
         enabled: true,
         top: 2,
@@ -77,8 +77,8 @@ export class HomeComponent {
         stops: [0, 90, 100]
       }
     },
-    dataLabels: { enabled: false },
-    stroke: { curve: 'smooth', width: 3 },
+    dataLabels: {enabled: false},
+    stroke: {curve: 'smooth', width: 3},
     xaxis: {
       type: 'category',
       categories: [],
@@ -89,48 +89,48 @@ export class HomeComponent {
         },
         rotate: -45,
         hideOverlappingLabels: true,
-        formatter: function(value: string) {
+        formatter: function (value: string) {
           if (value && value.endsWith('m')) {
             const month = parseInt(value.replace('m', ''));
             if (month > 0 && month % 12 === 0) {
-              return `${month / 12}a`; // Converte '12m' para '1a', '24m' para '2a', etc.
+              return `${month / 12}a`;
             }
             if (month % 12 !== 0 && month > 12) {
-              return value; // Mostra o mês em períodos mais curtos
+              return value;
             }
           }
-          return value; // Retorna o valor original ('Início', '1m', etc.)
+          return value;
         }
       },
-      axisBorder: { show: false },
-      axisTicks: { show: false },
+      axisBorder: {show: false},
+      axisTicks: {show: false},
       title: {
         text: 'Período',
-        style: { color: '#334155', fontWeight: 500 }
+        style: {color: '#334155', fontWeight: 500}
       }
     },
     yaxis: {
       labels: {
-        style: { colors: '#64748b', fontSize: '12px' },
+        style: {colors: '#64748b', fontSize: '12px'},
         formatter: function (value: number) {
           if (typeof value !== 'undefined' && value !== null) {
-            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            return value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
           }
           return value;
         }
       },
       title: {
         text: 'Valor (R$)',
-        style: { color: '#334155', fontWeight: 500 }
+        style: {color: '#334155', fontWeight: 500}
       }
     },
     tooltip: {
       theme: 'light',
-      style: { fontSize: '13px' },
+      style: {fontSize: '13px'},
       y: {
         formatter: function (value: number) {
           if (typeof value !== 'undefined' && value !== null) {
-            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            return value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
           }
           return value;
         }
@@ -139,7 +139,7 @@ export class HomeComponent {
     grid: {
       borderColor: '#e2e8f0',
       strokeDashArray: 4,
-      xaxis: { lines: { show: false } }
+      xaxis: {lines: {show: false}}
     },
     legend: {
       position: 'top',
@@ -152,22 +152,15 @@ export class HomeComponent {
   };
 
   constructor(private fb: FormBuilder,
-) {
+  ) {
     this.cdiForm = this.fb.group({
       cdiPercent: [100, [Validators.required, Validators.min(0)]],
       initialValue: [1000, [Validators.required, Validators.min(0)]],
       period: [12, [Validators.required, Validators.min(1)]],
       periodType: ['meses', Validators.required],
       monthlyContribution: [0, [Validators.min(0)]],
-      cdiAnnual: [11.25, [Validators.required, Validators.min(0)]],
+      cdiAnnual: [15, [Validators.required, Validators.min(0)]],
       showTaxes: [true]
-    });
-  }
-
-  copyToClipboard(value: number) {
-    const stringValue = value.toString();
-    navigator.clipboard.writeText(stringValue).then(() => {
-      console.log('Valor copiado: ' + stringValue);
     });
   }
 
@@ -212,13 +205,21 @@ export class HomeComponent {
     const ir = (rendimentoBruto - iof) * (aliquotaIR / 100);
     const liquido = rendimentoBruto - iof - ir;
 
-    return { ir, iof, liquido };
+    return {ir, iof, liquido};
   }
 
   onCalculate() {
     if (!this.cdiForm.valid) return;
 
-    const { cdiPercent, initialValue, period, periodType, monthlyContribution, showTaxes, cdiAnnual } = this.cdiForm.value;
+    const {
+      cdiPercent,
+      initialValue,
+      period,
+      periodType,
+      monthlyContribution,
+      showTaxes,
+      cdiAnnual
+    } = this.cdiForm.value;
 
     const totalMonths = periodType === 'anos' ? period * 12 : period;
 
@@ -278,8 +279,8 @@ export class HomeComponent {
     this.chartOptions = {
       ...this.chartOptions,
       series: [
-        { name: 'Valor Total', data: chartValues },
-        { name: 'Valor Investido', data: chartInvested }
+        {name: 'Valor Total', data: chartValues},
+        {name: 'Valor Investido', data: chartInvested}
       ],
       xaxis: {
         ...this.chartOptions.xaxis,
