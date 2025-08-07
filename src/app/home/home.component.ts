@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule, ChartComponent } from 'ng-apexcharts';
 import { RouterModule } from '@angular/router';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconModule } from '@angular/material/icon';
 
 
 interface SimulationResult {
@@ -155,8 +154,6 @@ export class HomeComponent {
   };
 
   constructor(private fb: FormBuilder,
-  private matIconRegistry: MatIconRegistry,
-  private domSanitizer: DomSanitizer
 ) {
     this.cdiForm = this.fb.group({
       cdiPercent: [100, [Validators.required, Validators.min(0)]],
