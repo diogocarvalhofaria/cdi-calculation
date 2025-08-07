@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { NgApexchartsModule, ChartComponent } from 'ng-apexcharts';
-import { RouterModule } from '@angular/router';
+import {Component, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {NgApexchartsModule, ChartComponent} from 'ng-apexcharts';
+import {RouterModule} from '@angular/router';
 
 interface SimulationResult {
   finalValue: number;
@@ -25,7 +25,7 @@ export class HomeComponent {
   @ViewChild('chart') chart!: ChartComponent;
 
   cdiForm: FormGroup;
-  showResult = false;
+  showResult = true;
 
   result: SimulationResult = {
     finalValue: 0,
@@ -54,9 +54,9 @@ export class HomeComponent {
     chart: {
       height: 400,
       type: 'area',
-      toolbar: { show: false },
-      zoom: { enabled: false },
-      sparkline: { enabled: false },
+      toolbar: {show: false},
+      zoom: {enabled: false},
+      sparkline: {enabled: false},
       dropShadow: {
         enabled: true,
         top: 2,
@@ -65,7 +65,7 @@ export class HomeComponent {
         opacity: 0.15
       }
     },
-    colors: ['#155dfc', '#94a3b8'],
+    colors: ['#2563eb', '#94a3b8'],
     fill: {
       type: 'gradient',
       gradient: {
@@ -77,44 +77,73 @@ export class HomeComponent {
         stops: [0, 90, 100]
       }
     },
-    dataLabels: { enabled: false },
-    stroke: { curve: 'smooth', width: 3 },
+    dataLabels: {enabled: false},
+    stroke: {curve: 'smooth', width: 3},
     xaxis: {
+      type: 'category',
       categories: [],
       labels: {
         style: {
           colors: '#64748b',
           fontSize: '12px'
+        },
+        rotate: -45,
+        hideOverlappingLabels: true,
+        formatter: function (value: string) {
+          if (value && value.endsWith('m')) {
+            const month = parseInt(value.replace('m', ''));
+            if (month > 0 && month % 12 === 0) {
+              return `${month / 12}a`;
+            }
+            if (month % 12 !== 0 && month > 12) {
+              return value;
+            }
+          }
+          return value;
         }
       },
-      axisBorder: { show: false },
-      axisTicks: { show: false },
+      axisBorder: {show: false},
+      axisTicks: {show: false},
       title: {
-        text: 'Meses',
-        style: { color: '#334155', fontWeight: 500 }
+        text: 'Período',
+        style: {color: '#334155', fontWeight: 500}
       }
     },
     yaxis: {
       labels: {
-        style: { colors: '#64748b', fontSize: '12px' }
+        style: {colors: '#64748b', fontSize: '12px'},
+        formatter: function (value: number) {
+          if (typeof value !== 'undefined' && value !== null) {
+            return value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+          }
+          return value;
+        }
       },
       title: {
         text: 'Valor (R$)',
-        style: { color: '#334155', fontWeight: 500 }
+        style: {color: '#334155', fontWeight: 500}
       }
     },
     tooltip: {
       theme: 'light',
-      style: { fontSize: '13px' },
+      style: {fontSize: '13px'},
       y: {
+        formatter: function (value: number) {
+          if (typeof value !== 'undefined' && value !== null) {
+            return value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+          }
+          return value;
+        }
       }
     },
     grid: {
       borderColor: '#e2e8f0',
       strokeDashArray: 4,
-      xaxis: { lines: { show: false } }
+      xaxis: {lines: {show: false}}
     },
     legend: {
+      position: 'top',
+      horizontalAlign: 'left',
       labels: {
         colors: '#334155',
         useSeriesColors: false
@@ -122,38 +151,33 @@ export class HomeComponent {
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+  ) {
     this.cdiForm = this.fb.group({
       cdiPercent: [100, [Validators.required, Validators.min(0)]],
       initialValue: [1000, [Validators.required, Validators.min(0)]],
-      period: [12, [Validators.required]],
+      period: [12, [Validators.required, Validators.min(1)]],
+      periodType: ['meses', Validators.required],
       monthlyContribution: [0, [Validators.min(0)]],
       cdiAnnual: [15, [Validators.required, Validators.min(0)]],
       showTaxes: [true]
     });
   }
 
-  copyToClipboard(value: number) {
-    const stringValue = value.toString();
-    navigator.clipboard.writeText(stringValue).then(() => {
-      alert('Valor copiado: ' + stringValue);
-    });
-  }
-
-  getMotivationalPhrase(initialValue: number, period: number): string {
+  getMotivationalPhrase(initialValue: number, periodInMonths: number): string {
     let phrase = '';
 
     if (initialValue < 1000) {
       phrase = "Todo grande investidor começou com o primeiro passo. O importante é começar!";
     } else if (initialValue <= 50000) {
-      phrase = "Você já está plantando sua liberdade financeira. Continue regando!";
+      phrase = "Você já está a plantar a sua liberdade financeira. Continue a regar!";
     } else {
-      phrase = "Você não está só investindo dinheiro. Está comprando tempo, liberdade e paz.";
+      phrase = "Você não está só a investir dinheiro. Está a comprar tempo, liberdade e paz.";
     }
 
-    if (period >= 60) {
+    if (periodInMonths >= 60) {
       phrase += " O tempo está do seu lado — continue firme.";
-    } else if (period >= 12) {
+    } else if (periodInMonths >= 12) {
       phrase += " Com paciência e consistência, os frutos vão aparecer.";
     }
 
@@ -168,67 +192,63 @@ export class HomeComponent {
     else aliquotaIR = 15;
 
     let aliquotaIOF = 0;
-    if (dias <= 30) {
+    if (dias < 30) {
       const iofTabela = [
         96, 93, 90, 86, 83, 80, 76, 73, 70, 66,
         63, 60, 56, 53, 50, 46, 43, 40, 36, 33,
         30, 26, 23, 20, 16, 13, 10, 6, 3, 0
       ];
-      aliquotaIOF = iofTabela[dias - 1] / 100;
+      aliquotaIOF = dias > 0 ? (iofTabela[Math.floor(dias) - 1] || 0) / 100 : 0;
     }
 
     const iof = rendimentoBruto * aliquotaIOF;
     const ir = (rendimentoBruto - iof) * (aliquotaIR / 100);
     const liquido = rendimentoBruto - iof - ir;
 
-    return { ir, iof, liquido };
+    return {ir, iof, liquido};
   }
 
   onCalculate() {
     if (!this.cdiForm.valid) return;
 
-    const cdiPercent = this.cdiForm.value.cdiPercent / 100;
-    const initialValue = this.cdiForm.value.initialValue;
-    const period = this.cdiForm.value.period;
-    const monthlyContribution = this.cdiForm.value.monthlyContribution;
-    const showTaxes = this.cdiForm.value.showTaxes;
+    const {
+      cdiPercent,
+      initialValue,
+      period,
+      periodType,
+      monthlyContribution,
+      showTaxes,
+      cdiAnnual
+    } = this.cdiForm.value;
 
-    const cdiAnnual = this.cdiForm.value.cdiAnnual / 100;
-    const cdiMonthly = cdiAnnual / 12;
-    const monthlyRate = cdiMonthly * cdiPercent;
+    const totalMonths = periodType === 'anos' ? period * 12 : period;
 
-    this.motivationalPhrase = this.getMotivationalPhrase(initialValue, period);
+    const cdiMonthly = (cdiAnnual / 100) / 12;
+    const monthlyRate = cdiMonthly * (cdiPercent / 100);
+
+    this.motivationalPhrase = this.getMotivationalPhrase(initialValue, totalMonths);
 
     let totalValue = initialValue;
     let totalInvested = initialValue;
 
     const chartValues = [initialValue];
     const chartInvested = [initialValue];
-    let chartMonths = ['0'];
+    const chartMonths: string[] = ['Início'];
 
-    let labelInterval;
-    if (period > 300) labelInterval = 60;
-    else if (period > 120) labelInterval = 24;
-    else if (period > 60) labelInterval = 12;
-    else if (period > 24) labelInterval = 6;
-    else labelInterval = 1;
-
-    for (let i = 1; i <= period; i++) {
-      totalValue = totalValue * (1 + monthlyRate) + monthlyContribution;
-      totalInvested += monthlyContribution;
-      chartValues.push(totalValue);
-      chartInvested.push(totalInvested);
-
-      if (i % labelInterval === 0 || i === period) {
-        if (i % 12 === 0) chartMonths.push(i / 12 + ' anos');
-        else chartMonths.push(i + ' m');
-      } else {
-        chartMonths.push('');
+    for (let i = 1; i <= totalMonths; i++) {
+      totalValue += totalValue * monthlyRate;
+      if (monthlyContribution > 0) {
+        totalValue += monthlyContribution;
+        totalInvested += monthlyContribution;
       }
+
+      chartValues.push(parseFloat(totalValue.toFixed(2)));
+      chartInvested.push(parseFloat(totalInvested.toFixed(2)));
+      chartMonths.push(`${i}m`);
     }
 
     const rendimentoBruto = totalValue - totalInvested;
-    const diasEstimados = period * 30;
+    const diasEstimados = totalMonths * 30.4167;
     let ir = 0, iof = 0, liquido = rendimentoBruto;
 
     if (showTaxes) {
@@ -236,10 +256,6 @@ export class HomeComponent {
       ir = impostos.ir;
       iof = impostos.iof;
       liquido = impostos.liquido;
-    } else {
-      ir = 0;
-      iof = 0;
-      liquido = rendimentoBruto;
     }
 
     this.result = {
@@ -250,30 +266,26 @@ export class HomeComponent {
       iof: iof,
       netInterest: liquido,
       finalValueAfterTax: totalInvested + liquido,
-      rentabilidade: 0
+      rentabilidade: ((totalInvested + liquido) / totalInvested - 1) * 100
     };
 
-    this.result.rentabilidade = ((this.result.finalValueAfterTax / totalInvested) - 1) * 100;
+    let tickAmount;
+    if (totalMonths > 36) {
+      tickAmount = 12; // Define um número fixo de marcadores para períodos longos
+    } else {
+      tickAmount = totalMonths;
+    }
 
     this.chartOptions = {
       ...this.chartOptions,
       series: [
-        { name: 'Valor Total', data: chartValues },
-        { name: 'Valor Investido', data: chartInvested }
+        {name: 'Valor Total', data: chartValues},
+        {name: 'Valor Investido', data: chartInvested}
       ],
       xaxis: {
         ...this.chartOptions.xaxis,
         categories: chartMonths,
-        labels: {
-          ...this.chartOptions.xaxis.labels,
-          rotate: -45,
-          rotateAlways: period > 60,
-          hideOverlappingLabels: true,
-          style: {
-            ...this.chartOptions.xaxis.labels.style,
-            fontSize: period > 60 ? '10px' : '12px'
-          }
-        }
+        tickAmount: tickAmount,
       }
     };
 

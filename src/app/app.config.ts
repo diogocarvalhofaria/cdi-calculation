@@ -1,4 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +10,10 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
+import {provideAnimations} from '@angular/platform-browser/animations';
+
+import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +28,9 @@ export const appConfig: ApplicationConfig = {
       }),
       deps: [HttpLink],
     },
+    provideRouter(routes, withHashLocation()),
+
+    provideAnimations(),
+    provideHttpClient()
   ]
 };

@@ -19,8 +19,8 @@ export class HeaderComponent implements OnInit {
   }
 
   setupMenuToggle(): void {
-    const toggleButton = document.querySelector('[data-collapse-toggle="mobile-menu-2"]');
-    const menu = document.getElementById('mobile-menu-2');
+    const toggleButton = document.querySelector('[data-collapse-toggle="mobile-menu"]');
+    const menu = document.getElementById('mobile-menu');
 
     if (toggleButton && menu) {
       toggleButton.addEventListener('click', () => {
