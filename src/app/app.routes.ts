@@ -6,10 +6,10 @@ import { InvestmentTypesComponent } from './blog/investment-types.component';
 import { TaxArticleComponent } from './blog/tax-article.component';
 import { PrivacyPolicyComponent } from './blog/privacy-policy.component';
 import { TermsOfUseComponent } from './blog/terms-of-use.component';
-import {AuthComponent} from './auth/auth.component';
-import {RegisterComponent} from './auth/register.component';
-import {authGuard} from './guards/auth.guard';
-import {ProfileComponent} from './profile/profile.component';
+import { AuthComponent } from './auth/auth.component';
+import { RegisterComponent } from './auth/register.component';
+import { authGuard } from './guards/auth.guard';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,20 +19,17 @@ export const routes: Routes = [
   { path: 'blog/imposto-renda-renda-fixa', component: TaxArticleComponent },
   { path: 'politica-privacidade', component: PrivacyPolicyComponent },
   { path: 'termos-uso', component: TermsOfUseComponent },
-  {path: 'auth', component: AuthComponent},
-  {path: 'register', component: RegisterComponent},
-  { path: '**', redirectTo: '' },
+  { path: 'auth', component: AuthComponent },
   { path: 'login', component: AuthComponent },
   { path: 'register', component: RegisterComponent },
 
-  // A rota 'profile' é protegida. O guard será verificado antes de acessá-la.
+  // Rota protegida
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [authGuard] // O guard protege esta rota
+    canActivate: [authGuard]
   },
 
-  // Rotas padrão
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' }
+  // Rota curinga (deve ser sempre a última)
+  { path: '**', redirectTo: '' }
 ];

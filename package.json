@@ -24,7 +24,7 @@
     "@angular/platform-server": "^19.1.0",
     "@angular/router": "^19.1.0",
     "@angular/ssr": "^19.1.8",
-    "@apollo/client": "^3.13.8",
+    "@apollo/client": "^3.13.9",
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@tailwindcss/postcss": "^4.1.11",

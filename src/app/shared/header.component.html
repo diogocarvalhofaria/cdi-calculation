@@ -6,35 +6,160 @@
         <span class="self-center text-2xl font-bold whitespace-nowrap text-[#2563eb] dark:text-white font-poppins">CDIFácil</span>
       </a>
 
-      <div class="flex items-center lg:order-2 space-x-4">
+      <div class="flex items-center lg:order-2 space-x-2 md:space-x-4">
         <!-- Links de Navegação (Desktop) -->
         <div class="hidden lg:flex items-center space-x-8">
-          <a routerLink="/" class="text-sm font-medium text-gray-700 hover:text-[#2563eb] dark:text-gray-300 dark:hover:text-white transition-colors duration-300">Início</a>
-          <a routerLink="/blog" class="text-sm font-medium text-gray-700 hover:text-[#2563eb] dark:text-gray-300 dark:hover:text-white transition-colors duration-300">Blog</a>
+          <a routerLink="/"
+             class="text-sm font-medium text-gray-700 hover:text-[#2563eb] dark:text-gray-300 dark:hover:text-white transition-colors duration-300">Início</a>
+          <a routerLink="/blog"
+             class="text-sm font-medium text-gray-700 hover:text-[#2563eb] dark:text-gray-300 dark:hover:text-white transition-colors duration-300">Blog</a>
+        </div>
+
+        <!-- Botões de Login/Logout baseados no estado de autenticação -->
+        <div class="hidden lg:flex items-center gap-2">
+          <ng-container *ngIf="isLoggedIn; else loggedOutTemplate">
+            <!-- Usuário logado com dropdown -->
+            <div class="flex items-center space-x-3 relative">
+              <button id="profile-button"
+                      (click)="toggleDropdown()"
+                      class="flex items-center text-sm font-medium rounded-full focus:ring-2 focus:ring-blue-300"
+                      type="button">
+                <img [src]="currentUser?.photoUrl || 'https://via.placeholder.com/40'"
+                     alt="Foto de perfil"
+                     class="w-8 h-8 rounded-full">
+                <span class="text-sm font-medium text-gray-700 ml-2">{{ currentUser?.name }}</span>
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+
+              <!-- Dropdown menu -->
+              <div *ngIf="isDropdownOpen"
+                   id="user-dropdown"
+                   class="absolute right-0 top-full mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-50">
+                <div class="py-3 px-4 border-b border-gray-200 dark:border-gray-600">
+                  <div class="font-medium text-sm text-gray-900 dark:text-white">{{ currentUser?.name }}</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ currentUser?.email }}</div>
+                </div>
+                <ul class="py-1">
+                  <li>
+                    <a routerLink="/profile"
+                       (click)="isDropdownOpen = false"
+                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
+                      Meu Perfil
+                    </a>
+                  </li>
+                  <li>
+                    <a routerLink="/settings"
+                       (click)="isDropdownOpen = false"
+                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-200">
+                      Configurações
+                    </a>
+                  </li>
+                  <li>
+                    <button (click)="logout()"
+                            class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      Sair
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Template para usuário não logado -->
+          <ng-template #loggedOutTemplate>
+            <a routerLink="/auth"
+               class="text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 focus:outline-none">
+              Login
+            </a>
+            <a routerLink="/register"
+               class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 focus:outline-none dark:focus:ring-blue-800">
+              Registrar
+            </a>
+          </ng-template>
         </div>
 
         <!-- Dark Mode Toggle -->
-        <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
-          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-          <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+        <button id="theme-toggle" type="button"
+                class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+          <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+          <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+              fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
         </button>
 
         <!-- Botão Menu Mobile -->
-        <button data-collapse-toggle="mobile-menu" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu" aria-expanded="false">
+        <button data-collapse-toggle="mobile-menu" type="button"
+                class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="mobile-menu" aria-expanded="false">
           <span class="sr-only">Abrir menu</span>
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"></path>
+          </svg>
         </button>
       </div>
 
       <!-- Menu Mobile -->
-      <div class="hidden justify-between items-center w-full lg:hidden" id="mobile-menu">
-        <ul class="flex flex-col mt-4 font-medium">
+      <div class="hidden justify-between items-center w-full lg:w-auto lg:order-1" id="mobile-menu">
+        <ul class="flex flex-col mt-4 font-medium lg:hidden">
           <li>
-            <a routerLink="/" class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">Início</a>
+            <a routerLink="/"
+               class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">Início</a>
           </li>
           <li>
-            <a routerLink="/blog" class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">Blog</a>
+            <a routerLink="/blog"
+               class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">Blog</a>
           </li>
+
+          <!-- Menu mobile condicionado ao login -->
+          <ng-container *ngIf="isLoggedIn; else mobileLoggedOutTemplate">
+            <li>
+              <div class="flex items-center py-2 pr-4 pl-3">
+                <img [src]="currentUser?.photoUrl || 'https://via.placeholder.com/40'"
+                     alt="Foto de perfil"
+                     class="w-6 h-6 rounded-full mr-2">
+                <span class="text-gray-700">{{ currentUser?.name }}</span>
+              </div>
+            </li>
+            <li>
+              <a routerLink="/profile"
+                 class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100">
+                Meu Perfil
+              </a>
+            </li>
+            <li>
+              <a routerLink="/settings"
+                 class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100">
+                Configurações
+              </a>
+            </li>
+            <li>
+              <button (click)="logout()"
+                      class="w-full text-left py-2 pr-4 pl-3 text-red-600 rounded hover:bg-gray-100">
+                Sair
+              </button>
+            </li>
+          </ng-container>
+
+          <ng-template #mobileLoggedOutTemplate>
+            <li>
+              <a routerLink="/auth"
+                 class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">Login</a>
+            </li>
+            <li>
+              <a routerLink="/register"
+                 class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">Registrar</a>
+            </li>
+          </ng-template>
         </ul>
       </div>
     </div>

@@ -1,53 +1,82 @@
-import {Injectable} from '@angular/core';
-import {Observable, of, switchMap, tap} from 'rxjs';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { BehaviorSubject, Observable, of, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {CreateUserGQL, CreateUserInput, User} from '../../../generated/graphql';
-
+import { CreateUserGQL, CreateUserInput, User } from '../../../generated/graphql';
+import { isPlatformBrowser } from '@angular/common';
 
 const API_URL = 'http://localhost:3000';
+
+export interface CurrentUser {
+  id?: string;
+  name: string;
+  email: string;
+  photoUrl?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
-  private token: string | null = null;
+  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$ = this._isLoggedIn.asObservable();
 
-  constructor(private http: HttpClient,
-  private createUserGQL: CreateUserGQL,
+  private _currentUser = new BehaviorSubject<CurrentUser | null>(null);
+  public currentUser$ = this._currentUser.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    private createUserGQL: CreateUserGQL,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = this.getToken();
+      if (token) {
+        this._isLoggedIn.next(true);
+        this.loadUserData();
+      }
+    }
   }
 
+  private loadUserData(): void {
+    this.getProfile().subscribe({
+      next: (user) => {
+        this._currentUser.next({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          photoUrl: 'https://via.placeholder.com/40'
+        });
+      },
+      error: () => this.logout()
+    });
+  }
 
-  /**
-   * Envia as credenciais para o endpoint de login da API.
-   * @param credentials - Email e senha do usuário.
-   * @returns Observable com o token de acesso.
-   */
-
-  login(credentials: {email: string, password: string}): Observable<{ acess_token: string }> {
-    return this.http.post<{ acess_token: string }>(`${API_URL}/auth/login`, credentials).pipe(
+  login(credentials: {email: string, password: string}): Observable<any> {
+    return this.http.post<any>(`${API_URL}/auth/login`, credentials).pipe(
       tap(response => {
-        // Armazena o token no localStorage após o login
-        localStorage.setItem('auth_token', response.acess_token);
+        console.log('Resposta do login:', response);
+        const token = response.access_token || response.acess_token;
+
+        if (token && isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('auth_token', token);
+          this._isLoggedIn.next(true);
+          this.loadUserData();
+        } else if (!token) {
+          console.error('Token não encontrado na resposta:', response);
+          throw new Error('Token de autenticação não encontrado');
+        }
       })
     );
   }
-
-  /**
-   * Envia os dados do novo usuário para o endpoint de criação.
-   * NOTA: Seu backend usa GraphQL para criar usuários[cite: 34, 37].
-   * Para este exemplo, vamos assumir que você adicionou um endpoint REST em `user.controller.ts`
-   * que chama `userService.createUser()`. Se preferir usar GraphQL,
-   * você precisará de uma biblioteca como a 'apollo-angular'.
-   * * @param userData - Dados para a criação do usuário (nome, email, senha).
-   */
 
   register(data: CreateUserInput): Observable<{ status: number; message: string; }> {
     return this.createUserGQL.mutate({
       createUserInput: data,
     }).pipe(
-      switchMap(({ data }) => {
+      switchMap(({ data, errors }) => {
+        if (errors) {
+          throw new Error(errors.map(e => e.message).join(', '));
+        }
         if (!data?.createUser) {
           throw new Error('Usuário não criado');
         }
@@ -57,31 +86,22 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('auth_token');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('auth_token');
+    }
+    this._isLoggedIn.next(false);
+    this._currentUser.next(null);
   }
 
-  /**
-   * Recupera o token de autenticação do localStorage.
-   * @returns O token, se existir.
-   */
   getToken(): string | null {
-    return localStorage.getItem('auth_token');
+    return isPlatformBrowser(this.platformId) ? localStorage.getItem('auth_token') : null;
   }
 
-  /**
-   * Verifica se o usuário está autenticado.
-   * @returns True se o token existir, senão false.
-   */
   isAuthenticated(): boolean {
     return this.getToken() !== null;
   }
 
-  /**
-   * Busca os dados do perfil do usuário logado.
-   * O AuthInterceptor vai adicionar o token a esta requisição.
-   */
-  getProfile(): Observable<any> {
-    return this.http.get(`${API_URL}/auth/profile`);
+  getProfile(): Observable<User> {
+    return this.http.get<User>(`${API_URL}/auth/profile`);
   }
-
 }

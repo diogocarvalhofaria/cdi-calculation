@@ -39,7 +39,7 @@ export class AuthComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         // Redireciona para uma página protegida após o login, ex: '/profile'
-        // this.router.navigate(['/profile']);
+        this.router.navigate(['/profile']);
       },
       error: (err) => {
         // Exibe o erro vindo do backend, como "Senha inválida" [cite: 47]

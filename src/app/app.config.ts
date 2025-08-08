@@ -1,36 +1,28 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter, withHashLocation } from '@angular/router';
-import { provideRouter } from '@angular/router';
+import { withHashLocation, provideRouter } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { withInterceptors, provideHttpClient, withFetch } from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
-
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
-import {provideAnimations} from '@angular/platform-browser/animations';
-
-import { provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { inject } from '@angular/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(CommonModule, ReactiveFormsModule),
-    provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink) => ({
-        cache: new InMemoryCache(),
-        link: httpLink.create({ uri: 'http://localhost:3000/graphql' }),
-      }),
-      deps: [HttpLink],
-    },
     provideRouter(routes, withHashLocation()),
-
-    provideAnimations(),
-    provideHttpClient()
+    provideHttpClient(withInterceptors([authInterceptor]), withFetch()),
+    provideApollo(() => {
+      const httpLink = inject(HttpLink);
+      return {
+        cache: new InMemoryCache(),
+        link: httpLink.create({ uri: 'http://localhost:3000/graphql' })
+      };
+    }),
+    provideAnimations()
   ]
 };
