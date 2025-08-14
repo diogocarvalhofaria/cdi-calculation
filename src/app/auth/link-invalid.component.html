@@ -1,0 +1,28 @@
+<section class="bg-gray-50">
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-blue-600">
+      CDIFácil
+    </a>
+    <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8 text-center">
+        <div class="error-icon mb-4">
+          <svg class="w-16 h-16 text-red-500 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path fill="currentColor" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24v112c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm-32 224a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+          </svg>
+        </div>
+
+        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+          Link de verificação inválido ou expirado
+        </h1>
+
+        <p class="text-gray-600 mt-4">
+          O link que você utilizou para verificar seu e-mail é inválido ou já expirou.
+        </p>
+
+        <button (click)="voltarParaLogin()" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-6">
+          Voltar para a página de login
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -104,4 +104,10 @@ export class AuthService {
   getProfile(): Observable<User> {
     return this.http.get<User>(`${API_URL}/auth/profile`);
   }
+
+  verifyEmail(token: string): Observable<any> {
+    return this.http.get(`${API_URL}/auth/verify-email`, {
+      params: { token }
+    });
+  }
 }

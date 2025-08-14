@@ -14,7 +14,7 @@ import { inject } from '@angular/core';
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(CommonModule, ReactiveFormsModule),
-    provideRouter(routes, withHashLocation()),
+    provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor]), withFetch()),
     provideApollo(() => {
       const httpLink = inject(HttpLink);

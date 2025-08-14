@@ -5,6 +5,7 @@
     </a>
     <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
           Crie sua conta
         </h1>
@@ -23,12 +24,12 @@
 
           <div>
             <label for="register-password" class="block mb-2 text-sm font-medium text-gray-900">Senha</label>
-            <input type="password" id="register-password" formControlName="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5">
+            <input type="password" id="register-password" formControlName="password" placeholder="Senha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5">
           </div>
 
           <div>
             <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900">Confirmar senha</label>
-            <input type="password" id="confirm-password" formControlName="confirmPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5">
+            <input type="password" id="confirm-password" formControlName="confirmPassword" placeholder="Confirmar senha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5">
             <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched" class="text-red-500 text-xs mt-1">
               As senhas não conferem.
             </div>

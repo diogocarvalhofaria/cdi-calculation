@@ -10,6 +10,8 @@ import { AuthComponent } from './auth/auth.component';
 import { RegisterComponent } from './auth/register.component';
 import { authGuard } from './guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
+import {LinkInvalidComponent} from './auth/link-invalid.component';
+import {VerifyEmailComponent} from './auth/verify-email.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,14 +24,18 @@ export const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   { path: 'login', component: AuthComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'link-invalid', component: LinkInvalidComponent },
 
-  // Rota protegida
   {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [authGuard]
   },
 
+  {
+    path: 'auth/verify-email',
+    loadComponent: () => import('./auth/verify-email.component').then(m => m.VerifyEmailComponent),
+  },
   // Rota curinga (deve ser sempre a última)
   { path: '**', redirectTo: '' }
 ];
