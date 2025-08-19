@@ -27,6 +27,10 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'link-invalid', component: LinkInvalidComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  {
+    path: 'auth/reset-password',
+    loadComponent: () => import('./auth/reset-password.component').then(m => m.ResetPasswordComponent),
+  },
 
   {
     path: 'profile',

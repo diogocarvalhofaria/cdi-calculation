@@ -19,6 +19,7 @@ export class AuthComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
   emailVerified: boolean = false;
+  passwordReset: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +37,7 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       this.emailVerified = params['verified'] === 'true';
+      this.passwordReset = params['resetSuccess'] === 'true';
     });
   }
 
