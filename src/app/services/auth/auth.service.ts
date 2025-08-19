@@ -110,4 +110,12 @@ export class AuthService {
       params: { token }
     });
   }
+
+  sendPasswordResetEmail(email: string): Observable<any> {
+    return this.http.post<{ message: string }>(
+      'http://localhost:3000/auth/forgot-password',
+      { email }
+    );
+  }
+
 }

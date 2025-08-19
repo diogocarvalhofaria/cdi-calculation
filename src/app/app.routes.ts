@@ -12,6 +12,7 @@ import { authGuard } from './guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import {LinkInvalidComponent} from './auth/link-invalid.component';
 import {VerifyEmailComponent} from './auth/verify-email.component';
+import {ForgotPasswordComponent} from './auth/forgot-password.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'link-invalid', component: LinkInvalidComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
 
   {
     path: 'profile',
